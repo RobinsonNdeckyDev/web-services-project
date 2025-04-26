@@ -2,7 +2,6 @@
 <xs:schema
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
         targetNamespace="http://example.com/webServices"
-        xmlns:tns="http://example.com/webServices"
         elementFormDefault="qualified">
 
     <!-- Type de base LivreType -->

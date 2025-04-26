@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="3.0" xmlns="https://jakarta.ee/xml/ns/jaxb">
+  <!--
+
+Ce fichier a été généré par Eclipse Implementation of JAXB, v3.0.0 
+Voir https://eclipse-ee4j.github.io/jaxb-ri 
+Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
+Généré le : 2025.04.26 à 08:50:01 PM GMT 
+
+  -->
+  <bindings scd="x-schema::tns" xmlns:tns="http://example.com/webServices">
+    <schemaBindings map="false">
+      <package name="com.example.webServices.soap.model"/>
+    </schemaBindings>
+    <bindings scd="tns:ModifierLivreRequest">
+      <class ref="com.example.webServices.soap.model.ModifierLivreRequest"/>
+    </bindings>
+    <bindings scd="tns:AjouterLivreRequest">
+      <class ref="com.example.webServices.soap.model.AjouterLivreRequest"/>
+    </bindings>
+    <bindings scd="tns:AjouterLivreResponse">
+      <class ref="com.example.webServices.soap.model.AjouterLivreResponse"/>
+    </bindings>
+    <bindings scd="tns:ModifierLivreResponse">
+      <class ref="com.example.webServices.soap.model.ModifierLivreResponse"/>
+    </bindings>
+    <bindings scd="tns:SupprimerLivreRequest">
+      <class ref="com.example.webServices.soap.model.SupprimerLivreRequest"/>
+    </bindings>
+    <bindings scd="tns:SupprimerLivreResponse">
+      <class ref="com.example.webServices.soap.model.SupprimerLivreResponse"/>
+    </bindings>
+    <bindings scd="tns:PreterLivreRequest">
+      <class ref="com.example.webServices.soap.model.PreterLivreRequest"/>
+    </bindings>
+    <bindings scd="tns:PreterLivreResponse">
+      <class ref="com.example.webServices.soap.model.PreterLivreResponse"/>
+    </bindings>
+    <bindings scd="tns:RetournerLivreRequest">
+      <class ref="com.example.webServices.soap.model.RetournerLivreRequest"/>
+    </bindings>
+    <bindings scd="tns:RetournerLivreResponse">
+      <class ref="com.example.webServices.soap.model.RetournerLivreResponse"/>
+    </bindings>
+    <bindings scd="~tns:LivreType">
+      <class ref="com.example.webServices.soap.model.LivreType"/>
+    </bindings>
+  </bindings>
+</bindings>
+

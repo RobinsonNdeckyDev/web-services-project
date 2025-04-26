@@ -2,16 +2,10 @@ package com.example.webServices.soap.endpoints;
 
 import com.example.webServices.dtos.LivreDTO;
 import com.example.webServices.services.LivreService;
-import com.example.webServices.soap.models.AjouterLivreRequest;
-import com.example.webServices.soap.models.AjouterLivreResponse;
-import com.example.webServices.soap.models.ModifierLivreRequest;
-import com.example.webServices.soap.models.ModifierLivreResponse;
-import com.example.webServices.soap.models.SupprimerLivreRequest;
-import com.example.webServices.soap.models.SupprimerLivreResponse;
-import com.example.webServices.soap.models.PreterLivreRequest;
-import com.example.webServices.soap.models.PreterLivreResponse;
-import com.example.webServices.soap.models.RetournerLivreRequest;
-import com.example.webServices.soap.models.RetournerLivreResponse;
+import com.example.webServices.services.exceptions.LivreNonTrouveException;
+import com.example.webServices.soap.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -24,6 +18,7 @@ public class LivreEndpoint {
 
     private static final String NAMESPACE_URI = "http://example.com/webServices";
     private final LivreService livreService;
+    private static final Logger logger = LoggerFactory.getLogger(LivreEndpoint.class);
 
     public LivreEndpoint(LivreService livreService) {
         this.livreService = livreService;
@@ -32,13 +27,12 @@ public class LivreEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "AjouterLivreRequest")
     @ResponsePayload
     public AjouterLivreResponse ajouterLivre(@RequestPayload AjouterLivreRequest request) {
-        // Validation
         if (request.getTitre() == null || request.getTitre().isBlank()
                 || request.getAuteur() == null || request.getAuteur().isBlank()
-                || request.getIsbn() == null  || request.getIsbn().isBlank()) {
+                || request.getIsbn() == null || request.getIsbn().isBlank()) {
             throw new ValidationException("Les champs titre, auteur et isbn sont obligatoires.");
         }
-        // Création du DTO et appel service
+
         livreService.ajouterLivre(
                 new LivreDTO(null,
                         request.getTitre(),
@@ -46,7 +40,9 @@ public class LivreEndpoint {
                         request.getIsbn(),
                         request.isEstDisponible())
         );
-        // Réponse
+
+        logger.info("Livre ajouté : {} - {}", request.getTitre(), request.getAuteur());
+
         AjouterLivreResponse resp = new AjouterLivreResponse();
         resp.setMessage("Livre ajouté avec succès !");
         return resp;
@@ -59,14 +55,20 @@ public class LivreEndpoint {
         if (id <= 0) {
             throw new ValidationException("L'ID du livre est obligatoire pour la modification.");
         }
-        // Appel du service (qui retourne le DTO mis à jour)
-        livreService.modifierLivre(id,
-                new LivreDTO(id,
-                        request.getNouveauLivre().getTitre(),
-                        request.getNouveauLivre().getAuteur(),
-                        request.getNouveauLivre().getIsbn(),
-                        request.getNouveauLivre().isEstDisponible())
-        );
+
+        try {
+            livreService.modifierLivre(id,
+                    new LivreDTO(id,
+                            request.getNouveauLivre().getTitre(),
+                            request.getNouveauLivre().getAuteur(),
+                            request.getNouveauLivre().getIsbn(),
+                            request.getNouveauLivre().isEstDisponible())
+            );
+            logger.info("Livre modifié avec ID : {}", id);
+        } catch (LivreNonTrouveException ex) {
+            throw new ValidationException("Livre non trouvé pour modification.");
+        }
+
         ModifierLivreResponse resp = new ModifierLivreResponse();
         resp.setSuccess(true);
         return resp;
@@ -79,7 +81,14 @@ public class LivreEndpoint {
         if (id <= 0) {
             throw new ValidationException("L'ID du livre est obligatoire pour la suppression.");
         }
-        livreService.supprimerLivre(id);
+
+        try {
+            livreService.supprimerLivre(id);
+            logger.info("Livre supprimé avec ID : {}", id);
+        } catch (LivreNonTrouveException ex) {
+            throw new ValidationException("Livre non trouvé pour suppression.");
+        }
+
         SupprimerLivreResponse resp = new SupprimerLivreResponse();
         resp.setSuccess(true);
         return resp;
@@ -93,10 +102,20 @@ public class LivreEndpoint {
         if (uid <= 0 || lid <= 0) {
             throw new ValidationException("Les IDs utilisateur et livre sont obligatoires pour un prêt.");
         }
-        boolean success = livreService.preterLivre(uid, lid);
-        PreterLivreResponse resp = new PreterLivreResponse();
-        resp.setSuccess(success);
-        return resp;
+
+        try {
+            boolean success = livreService.preterLivre(uid, lid);
+            if (!success) {
+                throw new ValidationException("Le livre n'est pas disponible pour le prêt.");
+            }
+            logger.info("Livre prêté : LivreID={} à UserID={}", lid, uid);
+
+            PreterLivreResponse resp = new PreterLivreResponse();
+            resp.setSuccess(true);
+            return resp;
+        } catch (LivreNonTrouveException ex) {
+            throw new ValidationException("Livre non trouvé pour prêt.");
+        }
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "RetournerLivreRequest")
@@ -107,10 +126,20 @@ public class LivreEndpoint {
         if (uid <= 0 || lid <= 0) {
             throw new ValidationException("Les IDs utilisateur et livre sont obligatoires pour un retour.");
         }
-        boolean success = livreService.retournerLivre(uid, lid);
-        RetournerLivreResponse resp = new RetournerLivreResponse();
-        resp.setSuccess(success);
-        return resp;
+
+        try {
+            boolean success = livreService.retournerLivre(uid, lid);
+            if (!success) {
+                throw new ValidationException("Le retour a échoué. Le livre n'était pas prêté à cet utilisateur.");
+            }
+            logger.info("Livre retourné : LivreID={} par UserID={}", lid, uid);
+
+            RetournerLivreResponse resp = new RetournerLivreResponse();
+            resp.setSuccess(true);
+            return resp;
+        } catch (LivreNonTrouveException ex) {
+            throw new ValidationException("Livre non trouvé pour retour.");
+        }
     }
 
     @SoapFault(faultCode = FaultCode.CLIENT)
