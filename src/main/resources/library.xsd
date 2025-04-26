@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://example.com/webServices"
+        xmlns:tns="http://example.com/webServices"
+        elementFormDefault="qualified">
+
+    <!-- Type de base LivreType -->
+    <xs:complexType name="LivreType">
+        <xs:sequence>
+            <xs:element name="titre"         type="xs:string"/>
+            <xs:element name="auteur"        type="xs:string"/>
+            <xs:element name="isbn"          type="xs:string"/>
+            <xs:element name="estDisponible" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- 1) AjouterLivre -->
+    <xs:element name="AjouterLivreRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="titre"         type="xs:string"/>
+                <xs:element name="auteur"        type="xs:string"/>
+                <xs:element name="isbn"          type="xs:string"/>
+                <xs:element name="estDisponible" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="AjouterLivreResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="message" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 2) ModifierLivre -->
+    <xs:element name="ModifierLivreRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="livreId"      type="xs:long"/>
+                <xs:element name="nouveauLivre">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="titre"         type="xs:string"/>
+                            <xs:element name="auteur"        type="xs:string"/>
+                            <xs:element name="isbn"          type="xs:string"/>
+                            <xs:element name="estDisponible" type="xs:boolean"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ModifierLivreResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="success" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 3) SupprimerLivre -->
+    <xs:element name="SupprimerLivreRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="livreId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="SupprimerLivreResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="success" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 4) PreterLivre -->
+    <xs:element name="PreterLivreRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="userId"  type="xs:long"/>
+                <xs:element name="livreId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PreterLivreResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="success" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 5) RetournerLivre -->
+    <xs:element name="RetournerLivreRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="userId"  type="xs:long"/>
+                <xs:element name="livreId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="RetournerLivreResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="success" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

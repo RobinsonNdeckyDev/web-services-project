@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.5</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>webServices</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>webServices</name>
+	<description>Demo project for Spring Boot</description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<properties>
+		<java.version>21</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<!-- REST -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- Web Services (SOAP) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web-services</artifactId>
+		</dependency>
+		<!-- Spring WS core API -->
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-core</artifactId>
+		</dependency>
+
+		<!-- Base de données -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- JAXB API (javax) pour les annotations générées par XJC -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<!-- Implémentation / runtime JAXB (GlassFish) -->
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>2.3.3</version>
+		</dependency>
+		<!-- wsdl4j -->
+		<dependency>
+			<groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.14.0</version>
+
+				<!-- CONFIGURATION au niveau du plugin -->
+				<configuration>
+					<!-- 1) Où se trouvent vos XSD -->
+					<schemaDirectory>${project.basedir}/src/main/resources</schemaDirectory>
+					<schemaIncludes>
+						<include>library.xsd</include>
+					</schemaIncludes>
+
+					<!-- 2) Package cible pour les classes générées -->
+					<generatePackage>com.example.webServices.soap.models</generatePackage>
+
+					<!-- 3) Où générer (facultatif, c’est déjà le défaut) -->
+					<generateDirectory>${project.build.directory}/generated-sources/xjc</generateDirectory>
+
+					<!-- 4) Demande à Maven d’ajouter automatiquement ce dossier dans le classpath de compilation -->
+					<addCompileSourceRoot>true</addCompileSourceRoot>
+
+					<!-- 5) Si jamais vous utilisez des extensions JAXB (optionnel) -->
+					<extension>true</extension>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>generate-jaxb-classes</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<!--
+                          PAS de <configuration> ici : tout est déjà au niveau du plugin
+                        -->
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
