@@ -1,5 +1,6 @@
 package com.example.webServices.services;
 
+import com.example.webServices.dtos.LivreCreateRequestDTO;
 import com.example.webServices.dtos.LivreDTO;
 import com.example.webServices.mappers.LivreMapper;
 import com.example.webServices.models.Livre;
@@ -38,12 +39,12 @@ public class LivreService {
                 .collect(Collectors.toList());
     }
 
-    public LivreDTO ajouterLivre(LivreDTO livreDTO) {
+    public LivreDTO ajouterLivre(LivreCreateRequestDTO livreDTO) {
         Livre livre = LivreMapper.toEntity(livreDTO);
         return LivreMapper.toDTO(livreRepository.save(livre));
     }
 
-    public LivreDTO modifierLivre(Long id, LivreDTO livreDTO) {
+    public LivreDTO modifierLivre(Long id, LivreCreateRequestDTO livreDTO) {
         Livre existingLivre = livreRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Livre non trouvé"));
         Livre livre = LivreMapper.toEntity(livreDTO);

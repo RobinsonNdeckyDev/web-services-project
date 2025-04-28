@@ -15,7 +15,6 @@ public interface UserMapper {
 
     public static User toEntity(UserDTO dto) {
         User user = new User();
-        user.setId(dto.getId());
         user.setNom(dto.getNom());
         user.setEmail(dto.getEmail());
         user.setRole(dto.getRole());

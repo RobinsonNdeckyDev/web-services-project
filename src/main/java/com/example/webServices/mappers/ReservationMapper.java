@@ -1,5 +1,6 @@
 package com.example.webServices.mappers;
 
+import com.example.webServices.dtos.ReservationCreateRequestTDO;
 import com.example.webServices.dtos.ReservationDTO;
 import com.example.webServices.models.Reservation;
 
@@ -15,9 +16,8 @@ public interface ReservationMapper {
         );
     }
 
-    public static Reservation toEntity(ReservationDTO dto) {
+    public static Reservation toEntity(ReservationCreateRequestTDO dto) {
         Reservation reservation = new Reservation();
-        reservation.setId(dto.getId());
         reservation.setDateDebut(dto.getDateDebut());
         reservation.setDateFin(dto.getDateFin());
         reservation.setStatut(dto.getStatut());

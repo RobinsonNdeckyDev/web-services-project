@@ -18,7 +18,6 @@ public interface PretMapper {
 
     public static Pret toEntity(PretDTO dto) {
         Pret pret = new Pret();
-        pret.setId(dto.getId());
         pret.setDatePret(dto.getDatePret());
         pret.setDateRetourPrevu(dto.getDateRetourPrevu());
         pret.setDateRetourEffectif(dto.getDateRetourEffectif());

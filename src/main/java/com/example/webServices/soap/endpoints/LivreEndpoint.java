@@ -1,5 +1,6 @@
 package com.example.webServices.soap.endpoints;
 
+import com.example.webServices.dtos.LivreCreateRequestDTO;
 import com.example.webServices.dtos.LivreDTO;
 import com.example.webServices.services.LivreService;
 import com.example.webServices.services.exceptions.LivreNonTrouveException;
@@ -34,7 +35,7 @@ public class LivreEndpoint {
         }
 
         livreService.ajouterLivre(
-                new LivreDTO(null,
+                new LivreCreateRequestDTO(
                         request.getTitre(),
                         request.getAuteur(),
                         request.getIsbn(),
@@ -58,7 +59,7 @@ public class LivreEndpoint {
 
         try {
             livreService.modifierLivre(id,
-                    new LivreDTO(id,
+                    new LivreCreateRequestDTO(
                             request.getNouveauLivre().getTitre(),
                             request.getNouveauLivre().getAuteur(),
                             request.getNouveauLivre().getIsbn(),

@@ -1,5 +1,6 @@
 package com.example.webServices.controllers;
 
+import com.example.webServices.dtos.UserCreateDTO;
 import com.example.webServices.dtos.UserDTO;
 import com.example.webServices.services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> ajouterUser(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.status(201).body(userService.ajouterUser(userDTO));
+    public ResponseEntity<UserDTO> ajouterUser(@RequestBody UserCreateDTO userCreateDTO) {
+        return ResponseEntity.status(201).body(userService.ajouterUser(userCreateDTO));
     }
 
     @PutMapping("/{id}")

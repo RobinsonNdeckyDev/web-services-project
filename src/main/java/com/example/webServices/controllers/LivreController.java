@@ -1,5 +1,6 @@
 package com.example.webServices.controllers;
 
+import com.example.webServices.dtos.LivreCreateRequestDTO;
 import com.example.webServices.dtos.LivreDTO;
 import com.example.webServices.services.LivreService;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +33,12 @@ public class LivreController {
     }
 
     @PostMapping
-    public ResponseEntity<LivreDTO> ajouterLivre(@RequestBody LivreDTO livreDTO) {
+    public ResponseEntity<LivreDTO> ajouterLivre(@RequestBody LivreCreateRequestDTO livreDTO) {
         return ResponseEntity.status(201).body(livreService.ajouterLivre(livreDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LivreDTO> modifierLivre(@PathVariable Long id, @RequestBody LivreDTO livreDTO) {
+    public ResponseEntity<LivreDTO> modifierLivre(@PathVariable Long id, @RequestBody LivreCreateRequestDTO livreDTO) {
         return ResponseEntity.ok(livreService.modifierLivre(id, livreDTO));
     }
 

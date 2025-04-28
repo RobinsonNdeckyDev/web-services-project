@@ -1,5 +1,6 @@
 package com.example.webServices.controllers;
 
+import com.example.webServices.dtos.ReservationCreateRequestTDO;
 import com.example.webServices.dtos.ReservationDTO;
 import com.example.webServices.services.ReservationService;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +33,12 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservationDTO> ajouterReservation(@RequestBody ReservationDTO reservationDTO) {
+    public ResponseEntity<ReservationDTO> ajouterReservation(@RequestBody ReservationCreateRequestTDO reservationDTO) {
         return ResponseEntity.status(201).body(reservationService.ajouterReservation(reservationDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ReservationDTO> modifierReservation(@PathVariable Long id, @RequestBody ReservationDTO reservationDTO) {
+    public ResponseEntity<ReservationDTO> modifierReservation(@PathVariable Long id, @RequestBody ReservationCreateRequestTDO reservationDTO) {
         return ResponseEntity.ok(reservationService.modifierReservation(id, reservationDTO));
     }
 

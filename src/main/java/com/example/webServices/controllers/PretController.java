@@ -1,6 +1,9 @@
 package com.example.webServices.controllers;
 
+import com.example.webServices.dtos.PretCreateRequestDTO;
 import com.example.webServices.dtos.PretDTO;
+import com.example.webServices.dtos.ReservationCreateRequestTDO;
+import com.example.webServices.dtos.ReservationDTO;
 import com.example.webServices.services.PretService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,13 +36,13 @@ public class PretController {
     }
 
     @PostMapping
-    public ResponseEntity<PretDTO> ajouterPret(@RequestBody PretDTO pretDTO) {
-        return ResponseEntity.status(201).body(pretService.ajouterPret(pretDTO));
+    public ResponseEntity<PretDTO> ajouterPret(@RequestBody PretCreateRequestDTO pretCreateRequestDTO) {
+        return ResponseEntity.status(201).body(pretService.ajouterPret(pretCreateRequestDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PretDTO> modifierPret(@PathVariable Long id, @RequestBody PretDTO pretDTO) {
-        return ResponseEntity.ok(pretService.modifierPret(id, pretDTO));
+    public ResponseEntity<PretDTO> modifierReservation(@PathVariable Long id, @RequestBody PretCreateRequestDTO pretCreateRequestDTO) {
+        return ResponseEntity.ok(pretService.modifierPret(id, pretCreateRequestDTO));
     }
 
     @DeleteMapping("/{id}")

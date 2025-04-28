@@ -1,5 +1,6 @@
 package com.example.webServices.services;
 
+import com.example.webServices.dtos.UserCreateDTO;
 import com.example.webServices.dtos.UserDTO;
 import com.example.webServices.mappers.UserMapper;
 import com.example.webServices.models.User;
@@ -32,8 +33,11 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
 
-    public UserDTO ajouterUser(UserDTO userDTO) {
-        User user = UserMapper.toEntity(userDTO);
+    public UserDTO ajouterUser(UserCreateDTO userCreateDTO) {
+        User user = new User();
+        user.setNom(userCreateDTO.getNom());
+        user.setEmail(userCreateDTO.getEmail());
+        user.setRole(userCreateDTO.getRole());
         return UserMapper.toDTO(userRepository.save(user));
     }
 
